@@ -5,7 +5,7 @@ const CardList = ({cats}) => {
     return(
     <div>
         {
-            cats.map((user, i) =>{
+            cats.map((cat,i) =>{
                 return (
                 <Card 
                 name={cats[i].name} 
