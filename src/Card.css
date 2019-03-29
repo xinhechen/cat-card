@@ -1,0 +1,12 @@
+.card{
+    background-color: lightseagreen;
+    display : inline-block;
+    border-width: 0.25rem;
+    border-radius: 0.5rem;
+    padding : 1rem;
+    margin : 0.5rem;
+    box-shadow: 4px 4px 8px 0px rgba( 0, 0, 0, 0.2 );
+}
+.card:hover{
+    transform: scale(1.1);
+}
