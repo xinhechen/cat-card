@@ -8,10 +8,12 @@ const CardList = ({cats}) => {
             cats.map((cat,i) =>{
                 return (
                 <Card 
+                key = {cats[i].id}
                 name={cats[i].name} 
-                baseClass={cats[i].baseClass} 
                 rank={cats[i].rank} 
-                />);
+                > 
+                    {cats[i].baseClass}
+                </Card>);
             })
         }
     </div>
