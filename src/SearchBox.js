@@ -1,8 +1,8 @@
 import React from 'react';
-
+import './SearchBox.css';
 const SearchBox = ({ searchChange }) => {
     return (
-        <div>
+        <div className='searchBox'>
             <input
                 type='search' 
                 placeholder='search card' 

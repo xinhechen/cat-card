@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import CardList from './CardList';
+import Filter from './Filter';
 import { cats } from './Cats';
 import SearchBox from './SearchBox';
-
+import _ from 'lodash';
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
-            cats: cats,
-            searchfield:''
-        }
+            cats: [],
+            searchfield:'',
+        };
+        this.changed = _.debounce(this.onSearchChange, 500);
+    }
+    componentDidMount = () => {
+        this.setState({ cats: cats});
     }
 
     onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value })
-        
+        this.setState({ searchfield: event.target.value });
     }
 
     render() {
@@ -25,8 +29,9 @@ class App extends Component {
 
         return (
             <div>
-                <h1>Cat Cards</h1>
+                <h1 >Cat Cards</h1>
                 <SearchBox searchChange = {this.onSearchChange}/>
+                <Filter filterOptions={['may','luca','potato']}/>
                 <CardList cats={filtered} />
             </div>
         )
