@@ -11,15 +11,32 @@ class App extends Component {
         this.state = {
             cats: [],
             searchfield:'',
+            filterTypes: ['base class', 'rank'],
+            baseClass: ['may','luca','potato'],
+            rank: ['N','R','SR'],
+            selectedFilter:[],
         };
-        this.changed = _.debounce(this.onSearchChange, 500);
+        this.emitChange = _.debounce(this.onSearchChange, 500);
     }
     componentDidMount = () => {
         this.setState({ cats: cats});
     }
 
-    onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value });
+    handleChange = event => {
+        this.emitChange(event.target.value);
+    }
+
+    onSearchChange = (value) => {
+        this.setState({ searchfield: value });
+    }
+
+    onFilterTypeChange = (event) => {
+        if(event.target.value === 'base class')
+            this.setState({ selectedFilter: this.state.baseClass });
+        else if(event.target.value === 'rank')
+            this.setState({selectedFilter: this.state.rank});
+
+        // this.setState({selectedFilter: event.target.vale });
     }
 
     render() {
@@ -30,8 +47,9 @@ class App extends Component {
         return (
             <div>
                 <h1 >Cat Cards</h1>
-                <SearchBox searchChange = {this.onSearchChange}/>
-                <Filter filterOptions={['may','luca','potato']}/>
+                <SearchBox searchChange = {this.handleChange}/>
+                <Filter filterOptions = {this.state.filterTypes} selectChange = {this.onFilterTypeChange}/>
+                <Filter filterOptions = {this.state.selectedFilter} selectChange =  {this.onFilterTypeChange}/>
                 <CardList cats={filtered} />
             </div>
         )
