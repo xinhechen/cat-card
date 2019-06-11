@@ -27,7 +27,7 @@ class App extends Component {
     }
 
     onSearchChange = (value) => {
-        this.setState({ searchfield: value });
+        this.setState({ searchfield: value.toLowerCase() });
     }
 
     onFilterTypeChange = (event) => {
@@ -41,7 +41,7 @@ class App extends Component {
 
     render() {
         const filtered = this.state.cats.filter(cat => {
-            return cat.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+            return cat.name.toLowerCase().includes(this.state);
         })
 
         return (
