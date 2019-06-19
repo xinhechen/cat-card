@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CardList from './CardList';
-import Filter from './Filter';
+import FilterType from './FilterType';
 import { cats } from './Cats';
 import SearchBox from './SearchBox';
 import _ from 'lodash';
@@ -11,15 +11,18 @@ class App extends Component {
         this.state = {
             cats: [],
             searchfield:'',
-            filterTypes: ['base class', 'rank'],
-            baseClass: ['may','luca','potato'],
-            rank: ['N','R','SR'],
+            filterfield:'',
+            filtertype:'',
             selectedFilter:[],
+            filtered:[],
         };
         this.emitChange = _.debounce(this.onSearchChange, 500);
     }
     componentDidMount = () => {
-        this.setState({ cats: cats});
+        this.setState({ 
+            cats: cats,
+            filtered: cats,
+        });
     }
 
     handleChange = event => {
@@ -27,30 +30,34 @@ class App extends Component {
     }
 
     onSearchChange = (value) => {
-        this.setState({ searchfield: value.toLowerCase() });
+        this.setState({ 
+            searchfield: value.toLowerCase(),
+            filtered: this.state.cats.filter(cat => {
+                return cat.name.toLowerCase().includes(value.toLowerCase());
+            })
+         });
     }
 
-    onFilterTypeChange = (event) => {
-        if(event.target.value === 'base class')
-            this.setState({ selectedFilter: this.state.baseClass });
-        else if(event.target.value === 'rank')
-            this.setState({selectedFilter: this.state.rank});
-
-        // this.setState({selectedFilter: event.target.vale });
+    onFilterChange = (value) => {
+        this.setState({ 
+            filtered: this.state.cats.filter(cat =>{
+                console.log(value[0]);
+                if(value[0] === 'base class')
+                    return cat.baseClass.toLowerCase().includes(value[1]);
+                else if(value[0] === 'rank')
+                    return cat.rank === (value[1]);
+            })
+         });
     }
+
 
     render() {
-        const filtered = this.state.cats.filter(cat => {
-            return cat.name.toLowerCase().includes(this.state);
-        })
-
         return (
             <div>
                 <h1 >Cat Cards</h1>
                 <SearchBox searchChange = {this.handleChange}/>
-                <Filter filterOptions = {this.state.filterTypes} selectChange = {this.onFilterTypeChange}/>
-                <Filter filterOptions = {this.state.selectedFilter} selectChange =  {this.onFilterTypeChange}/>
-                <CardList cats={filtered} />
+                <FilterType onFilter={this.onFilterChange} filterType/>
+                <CardList cats={this.state.filtered} />
             </div>
         )
     }
