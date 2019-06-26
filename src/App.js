@@ -56,7 +56,7 @@ class App extends Component {
             <div>
                 <h1 >Cat Cards</h1>
                 <SearchBox searchChange = {this.handleChange}/>
-                <FilterType onFilter={this.onFilterChange} filterType/>
+                <FilterType onFilter={this.onFilterChange}/>
                 <CardList cats={this.state.filtered} />
             </div>
         )
